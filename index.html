@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine?</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(135deg, #ffb6c1, #ffe6f0);
+      text-align: center;
+    }
+
+    h1 {
+      color: #e60073;
+      font-size: 2.5em;
+    }
+
+    p {
+      max-width: 500px;
+      font-size: 1.2em;
+      color: #b30059;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 10px;
+      position: relative;
+    }
+
+    .yes {
+      background-color: #ff4d94;
+      color: white;
+    }
+
+    .no {
+      background-color: #ddd;
+      position: absolute;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 22px;
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* YES SCREEN */
+    #yesScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ff4d94, #ff99cc);
+      color: white;
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #yesScreen h1 {
+      font-size: 3em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💖 Will you be my Valentine, <span id="name">BABE</span>? 💖</h1>
+
+  <p>
+    You make my days brighter, my laughs louder, and my heart way too full.
+    So I’m asking you in the most extra way possible 😌💌
+  </p>
+
+  <button class="yes" onclick="sayYes()">Yes 💕</button>
+  <button class="no" id="noBtn">No 🙃</button>
+
+  <!-- Background music -->
+  <audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- YES SCREEN -->
+  <div id="yesScreen">
+    <h1>🎉 YOU SAID YES!!! 🎉</h1>
+    <p>Best Valentine ever 💕🥰</p>
+  </div>
+
+  <script>
+    // Change his name here
+    document.getElementById("name").innerText = "PRAKHAR";
+
+    const noBtn = document.getElementById("noBtn");
+    const music = document.getElementById("music");
+    let musicStarted = false;
+
+    // Impossible NO button
+    function moveNo() {
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 60);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
+
+    moveNo();
+
+    // Start music on first interaction
+    document.body.addEventListener("click", () => {
+      if (!musicStarted) {
+        music.play();
+        musicStarted = true;
+      }
+    }, { once: true });
+
+    // YES button full screen takeover
+    function sayYes() {
+      document.getElementById("yesScreen").style.display = "flex";
+      for (let i = 0; i < 50; i++) createHeart();
+    }
+
+    // Hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(createHeart, 250);
+  </script>
+
+</body>
+</html>
